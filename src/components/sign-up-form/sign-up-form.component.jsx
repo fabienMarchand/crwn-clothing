@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase/firebase.utils";
+import FormInput from "../form-input/form-input.components";
+
+
 
 const defaultFormFields = {
   displayName: "",
@@ -21,16 +27,16 @@ const SignUpForm = () => {
     }
 
     try {
-      const {user} = await createAuthUserWithEmailAndPassword(
+      const { user } = await createAuthUserWithEmailAndPassword(
         email,
         password
       );
 
-        await createUserDocumentFromAuth(user, {displayName});
-
+      await createUserDocumentFromAuth(user, { displayName });
     } catch (error) {
- 
-        console.error(error);
+      if (error.code === "auth/email-already-in-use") {
+        alert('Cannot create user, email already in use');
+      }
     }
   };
 
@@ -43,32 +49,32 @@ const SignUpForm = () => {
     <div>
       <h1>Sign Up with your Email and Password</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="">Display Name</label>
-        <input
+        <FormInput
+        label="Display Name"
           required
           type="text"
           onChange={handleChange}
           name="displayName"
           value={displayName}
         />
-        <label htmlFor="">Email</label>
-        <input
+        <FormInput
+        label="Email"
           required
           type="email"
           onChange={handleChange}
           name="email"
           value={email}
         />
-        <label htmlFor="">Password</label>
-        <input
+        <FormInput
+        label="Password"
           required
           type="password"
           onChange={handleChange}
           name="password"
           value={password}
         />
-        <label htmlFor="">Confirm Password</label>
-        <input
+        <FormInput
+        label="Confirm Password"
           required
           type="password"
           onChange={handleChange}
