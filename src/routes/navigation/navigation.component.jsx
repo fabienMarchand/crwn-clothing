@@ -12,12 +12,7 @@ import { CartContext } from "../../contexts/cart-context";
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
-  const { isCartOpen, setIsCartOpen } = useContext(CartContext);
-
-  const handleCart = () => {
-    setIsCartOpen(!isCartOpen);
-  };
-
+  const { isCartOpen } = useContext(CartContext);
   return (
     <>
       <div className="navigation">
@@ -38,7 +33,7 @@ const Navigation = () => {
               SignIn
             </Link>
           )}
-          <CartIcon onClick={handleCart}/>
+          <CartIcon/>
         </div>
         { isCartOpen && <CartDropdown />}
       </div>
